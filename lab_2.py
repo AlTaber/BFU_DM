@@ -4,31 +4,30 @@ import sys
 
 sys.setrecursionlimit(5000)
 
+
 def task_1():
     source_word = "ЧЕРЕСПОЛОСИЦА"
     target_length = 5
     
-    letter_counts = Counter(source_word) # {'Ч': 1, 'Е': 2, 'Р': 1, 'С': 2, 'П': 1, 'О': 3, 'Л': 1, 'И': 1, 'Ц': 1, 'А': 1}
+    letter_counts = Counter(source_word)
     
-    found_words_count = 0
+    unique_words = set()
 
-    def backtrack(current_length):
-        nonlocal found_words_count
-
-        if current_length == target_length:
-            found_words_count += 1
+    def backtrack(current_word):
+        if len(current_word) == target_length:
+            unique_words.add(current_word)
             return
 
         for char in letter_counts:
             if letter_counts[char] > 0:
                 letter_counts[char] -= 1
                 
-                backtrack(current_length + 1)
+                backtrack(current_word + char)
                 
                 letter_counts[char] += 1
 
-    backtrack(0)
-    print(f"Задание 1: Количество различных слов = {found_words_count}")
+    backtrack("")
+    print(f"Задание 1: Количество различных слов = {len(unique_words)}")
 
 def task_5():
     WIDTH = 19
