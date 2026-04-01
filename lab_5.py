@@ -207,6 +207,37 @@ def get_remainder_full(bits, poly):
     # Степень полинома 10, длина массива 11. Остаток - 10 бит.
     return temp[-(len(poly)-1):]
 
+def task_extra_tables():
+    print()
+    count = 10
+    subset_words = []
+
+    for i in range(count):
+        msg_bits = []
+        temp = i
+        for _ in range(K):
+            msg_bits.insert(0, temp % 2)
+            temp //= 2
+        
+        parity = get_remainder(msg_bits, G_POLY)
+        codeword = msg_bits + parity
+        
+        subset_words.append(codeword)
+        
+        w = sum(codeword)
+        print(f"{i:<3} | {list_to_str(msg_bits):<22} | {list_to_str(codeword):<32} | {w}")
+    
+    print("-" * 75)
+    
+    for i in range(count):
+        row_str = f"{i:<3} | "
+        for j in range(count):
+            xor_res = xor_lists(subset_words[i], subset_words[j])
+            dist = sum(xor_res)
+            
+            row_str += f"{dist:<3}"
+        print(row_str)
+
 
 # --- ЗАПУСК ПРОГРАММЫ ---
 
@@ -218,6 +249,7 @@ def main():
     t_det, t_cor = task_2(d_min)
     task_3(matrix, t_cor)
     task_4(matrix, t_cor, t_det)
+    task_extra_tables()
 
 if __name__ == "__main__":
     main()
